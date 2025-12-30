@@ -48,19 +48,16 @@
     <p>Отправь контент — получи готовые JSON-файлы для страниц Битрикса.</p>
    
     <form id="testForm" action="https://n8n.takfit.ru/webhook-test/content-to-bitrix" method="POST" enctype="multipart/form-data">
-        <!-- <form id="testForm" action="https://vanish74.app.n8n.cloud/webhook-test/content-to-bitrix" method="POST" enctype="multipart/form-data"> -->
         <label for="input_type">Тип ввода:</label>
         <select name="input_type" id="input_type" required>
             <option value="url">URL (ссылка на страницу)</option>
-            <option value="pdf">PDF-файл</option>
-            <option value="text">Текстовый файл</option>
+            <option value="file">Файл (PDF или TXT)</option>
         </select>
       
         <label for="content">Содержимое:</label>
-        <input type="text" name="content" id="content_url" placeholder="Введи URL, например https://example.com" required>
+        <input type="text" name="content" id="content_url" placeholder="Введи URL, например https://example.com">
         <input type="file" name="content" id="content_file" style="display:none;" accept=".pdf,.txt">
         
-        <!-- Селект Аспро — теперь с id и label для удобства -->
         <label for="aspro_solution">Решение Аспро:</label>
         <select name="aspro_solution" id="aspro_solution" required style="width: 100%; padding: 10px; margin: 15px 0; font-size: 16px; border-radius: 6px; border: 1px solid #ccc;">
             <option value="" disabled selected>Выберите решение Аспро</option>
@@ -76,7 +73,7 @@
    
     <div class="info">
         <p>После отправки результат появится ниже автоматически.</p>
-        <p>Если выбрал URL — заполни поле. Если PDF или текст — выбери файл.</p>    
+        <p>Если выбрал URL — заполни поле. Если файл — выбери PDF или TXT.</p>    
     </div>
    
     <div class="results" id="results" style="display:none;">
@@ -91,20 +88,27 @@
             const urlInput = document.getElementById('content_url');
             const fileInput = document.getElementById('content_file');
 
-            // Переключение полей ввода
+            // Переключение полей ввода с обнулением содержимого
             inputTypeSelect.addEventListener('change', function() {
                 const type = this.value;
+
                 if (type === 'url') {
                     urlInput.style.display = 'block';
                     urlInput.required = true;
+                    urlInput.value = ''; // обнуляем URL
+
                     fileInput.style.display = 'none';
                     fileInput.required = false;
-                } else {
+                    fileInput.value = ''; // сбрасываем выбранный файл
+                } else { // file
                     urlInput.style.display = 'none';
                     urlInput.required = false;
+                    urlInput.value = ''; // на всякий случай
+
                     fileInput.style.display = 'block';
                     fileInput.required = true;
-                    fileInput.accept = type === 'pdf' ? '.pdf' : '.txt';
+                    fileInput.accept = '.pdf,.txt';
+                    fileInput.value = ''; // обнуляем файл
                 }
             });
 
@@ -126,7 +130,7 @@
                 loadingDiv.style.display = 'block';
                 responseContentDiv.innerHTML = '';
 
-                const formData = new FormData(form);  // ← сюда автоматически попадёт aspro_solution
+                const formData = new FormData(form);
 
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 300000);
