@@ -234,5 +234,4 @@ document.getElementById('changelog-overlay').onclick = e => {
     }
 };
 </script>
-
 </body></html>
