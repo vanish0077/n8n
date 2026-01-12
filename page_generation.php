@@ -1,17 +1,80 @@
 <?php
-if ($_SERVER['REQUEST_METHOD']==='POST'&&isset($_POST['path'])){
-    ob_start();header('Content-Type: application/json');
-    $forbidden=['bitrix','upload','local','admin','images','include','auth','cgi-bin','css','js','personal','search','vendor'];
-    function send($s,$m){ob_end_clean();echo json_encode(['status'=>$s,'message'=>$m],JSON_UNESCAPED_UNICODE);exit;}
-    $path=$_POST['path']??'';$content=$_POST['content']??'';$imgs=$_FILES['images']??null;
-    if(empty($path)||empty($content))send('error','Отсутствуют данные');
-    $clean=trim($path,'/\\');
-    if(strpos($clean,'..')!==false||empty($clean))send('error','Недопустимый путь');
-    if(in_array(strtolower(explode('/',$clean)[0]??''),$forbidden))send('error','Запрещённая директория');
-    $data=json_decode($content,true);
-    if(json_last_error()|| !isset($data['page_title'],$data['content']))send('error','Некорректный JSON');
-    $title=$data['page_title'];$html=$data['content'];
-    $php=<<<PHP
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // ───────────────────────────────────────────────────────────────
+    // 1. Режим улучшения кода (из раздела "Улучшение кода")
+    // ───────────────────────────────────────────────────────────────
+    if (isset($_POST['mode']) && $_POST['mode'] === 'improve_code') {
+
+        header('Content-Type: application/json');
+
+        $code = $_POST['code'] ?? '';
+        $path = $_POST['path'] ?? '';
+
+        if (empty($code) || empty($path)) {
+            echo json_encode([
+                'status'  => 'error',
+                'message' => 'Отсутствует код файла или путь'
+            ], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        // Здесь должна быть ваша основная логика отправки в n8n
+        // (в текущем коде она выполняется на стороне JavaScript через fetch)
+        // Если хотите перенести часть обработки на сервер — добавьте здесь
+
+        // Пример минимального успешного ответа
+        echo json_encode([
+            'status'  => 'success',
+            'message' => 'Файл успешно получен сервером',
+            'path'    => $path,
+            'code_length' => strlen($code)
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    // ───────────────────────────────────────────────────────────────
+    // 2. Режим создания страницы из JSON (из раздела "Импорт информации")
+    // ───────────────────────────────────────────────────────────────
+    if (isset($_POST['path']) && isset($_POST['content'])) {
+
+        ob_start();
+        header('Content-Type: application/json');
+
+        $forbidden = ['bitrix','upload','local','admin','images','include','auth','cgi-bin','css','js','personal','search','vendor'];
+
+        function send($s, $m) {
+            ob_end_clean();
+            echo json_encode(['status' => $s, 'message' => $m], JSON_UNESCAPED_UNICODE);
+            exit;
+        }
+
+        $path    = $_POST['path'] ?? '';
+        $content = $_POST['content'] ?? '';
+        $imgs    = $_FILES['images'] ?? null;
+
+        if (empty($path) || empty($content)) {
+            send('error', 'Отсутствуют данные');
+        }
+
+        $clean = trim($path, '/\\');
+        if (strpos($clean, '..') !== false || empty($clean)) {
+            send('error', 'Недопустимый путь');
+        }
+
+        if (in_array(strtolower(explode('/', $clean)[0] ?? ''), $forbidden)) {
+            send('error', 'Запрещённая директория');
+        }
+
+        $data = json_decode($content, true);
+        if (json_last_error() || !isset($data['page_title'], $data['content'])) {
+            send('error', 'Некорректный JSON');
+        }
+
+        $title = $data['page_title'];
+        $html  = $data['content'];
+
+        $php = <<<PHP
 <?php
 require(\$_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 \$APPLICATION->SetTitle("$title");
@@ -19,36 +82,81 @@ require(\$_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $html
 <?php require(\$_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
 PHP;
-    try{
-        $root=$_SERVER['DOCUMENT_ROOT'];$dir=$root.'/'.$clean;
-        if(!is_dir($dir)&&!mkdir($dir,0755,true))send('error',"Не удалось создать $dir");
-        if(file_put_contents($dir.'/index.php',$php)===false)send('error','Не удалось записать index.php');
-        $saved=[];preg_match_all('/<img[^>]+src=["\']([^"\']+)["\'][^>]*>/i',$html,$m);
-        $needed=array_unique($m[1]);
-        if($imgs&&isset($imgs['name'])&&!empty($imgs['name'][0])){
-            $avail=[];
-            foreach($imgs['name'] as $i=>$n){
-                if($imgs['error'][$i]!==UPLOAD_ERR_OK)continue;
-                $avail[basename($n)]=$imgs['tmp_name'][$i];
+
+        try {
+            $root = $_SERVER['DOCUMENT_ROOT'];
+            $dir  = $root . '/' . $clean;
+
+            if (!is_dir($dir) && !mkdir($dir, 0755, true)) {
+                send('error', "Не удалось создать директорию $dir");
             }
-            foreach($needed as $p){
-                $f=ltrim(basename($p),'/');
-                if(empty($f)||!isset($avail[$f]))continue;
-                $target=$root.'/'.ltrim($p,'/');
-                $tdir=dirname($target);
-                if(!is_dir($tdir)&&!mkdir($tdir,0755,true))continue;
-                if(move_uploaded_file($avail[$f],$target))$saved[]=$p;
+
+            if (file_put_contents($dir . '/index.php', $php) === false) {
+                send('error', 'Не удалось записать index.php');
             }
+
+            $saved = [];
+            preg_match_all('/<img[^>]+src=["\']([^"\']+)["\'][^>]*>/i', $html, $m);
+            $needed = array_unique($m[1]);
+
+            if ($imgs && isset($imgs['name']) && !empty($imgs['name'][0])) {
+                $avail = [];
+                foreach ($imgs['name'] as $i => $n) {
+                    if ($imgs['error'][$i] !== UPLOAD_ERR_OK) continue;
+                    $avail[basename($n)] = $imgs['tmp_name'][$i];
+                }
+
+                foreach ($needed as $p) {
+                    $f = ltrim(basename($p), '/');
+                    if (empty($f) || !isset($avail[$f])) continue;
+
+                    $target = $root . '/' . ltrim($p, '/');
+                    $tdir   = dirname($target);
+
+                    if (!is_dir($tdir) && !mkdir($tdir, 0755, true)) continue;
+
+                    if (move_uploaded_file($avail[$f], $target)) {
+                        $saved[] = $p;
+                    }
+                }
+            }
+
+            $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
+                 . '://' . $_SERVER['HTTP_HOST'] . '/' . $clean . '/';
+
+            $msg = "<strong>Страница создана!</strong><br><br>"
+                 . "Папка: <b>$clean/</b><br>Файл: <b>index.php</b><br>"
+                 . "Ссылка: <a href='$url' target='_blank'>$url</a>";
+
+            if ($saved) {
+                $msg .= "<br><br><strong>Изображения размещены (" . count($saved) . "):</strong><br><br>";
+                foreach ($saved as $p) {
+                    $full_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http')
+                              . '://' . $_SERVER['HTTP_HOST'] . htmlspecialchars($p);
+                    $msg .= "• <a href='$full_url' target='_blank'>" . htmlspecialchars($p) . "</a><br>";
+                }
+            } else {
+                $msg .= "<br><br>Изображения не найдены или не загружены.";
+            }
+
+            $msg .= "<br><br>Готово!";
+
+            send('success', $msg);
+
+        } catch (Exception $e) {
+            send('error', $e->getMessage());
         }
-        $url=(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']==='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].'/'.$clean.'/';
-        $msg="<strong>Страница создана!</strong><br><br>Папка: <b>$clean/</b><br>Файл: <b>index.php</b><br>Ссылка: <a href='$url' target='_blank'>$url</a>";
-        if($saved){
-            $msg.="<br><br><strong>Изображения размещены (".count($saved)."):</strong><br><br>";
-            foreach($saved as $p)$msg.="• <a href='".(isset($_SERVER['HTTPS'])&&$_SERVER['HTTPS']==='on'?'https':'http').'://'.$_SERVER['HTTP_HOST'].htmlspecialchars($p)."' target='_blank'>".htmlspecialchars($p)."</a><br>";
-        }else $msg.="<br><br>Изображения не найдены или не загружены.";
-        $msg.="<br><br>Готово!";
-        send('success',$msg);
-    }catch(Exception $e){send('error',$e->getMessage());}
+    }
+
+    // ───────────────────────────────────────────────────────────────
+    // Если ни один сценарий не подошёл
+    // ───────────────────────────────────────────────────────────────
+    header('Content-Type: application/json');
+    echo json_encode([
+        'status'  => 'error',
+        'message' => 'Неподдерживаемый тип запроса'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
 }
 if (isset($_GET['tree'])) {
     header('Content-Type: text/html; charset=utf-8');
