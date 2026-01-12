@@ -54,39 +54,92 @@ if (isset($_GET['tree'])) {
     header('Content-Type: text/html; charset=utf-8');
     $root = $_SERVER['DOCUMENT_ROOT'];
     $excluded_dirs = ['bitrix', 'modules', 'upload', 'local', '.git', 'cgi-bin', 'personal', 'admin', 'include', 'css', 'js', 'vendor', 'ajax', 'aspro_regions', 'auth'];
-    $excluded_files = ['access.php', 'page_generation.php','robots.php','sitemap.php', '.bottom.menu.php', '.bottom_company.menu.php', '.bottom_help.menu.php', '.bottom_info.menu.php', '.cabinet.menu.php', '.htaccess', '.htaccess_back', '.left.menu.php', '.only_catalog.menu.php', '.section.php', '.subtop_content_multilevel.menu.php', '.top.menu.php', '.top_catalog_sections.menu.php', '.top_catalog_sections.menu_ext.php', '.top_catalog_wide.menu.php', '.top_catalog_wide.menu_ext.php', '.top_content_multilevel.menu.php', '404.php', 'urlrewrite.php'];
+    $excluded_files = ['access.php', 'page_generation.php','robots.php','sitemap.php', '.bottom.menu.php', '.bottom_company.menu.php', '.bottom_help.menu.php', '.bottom_info.menu.php', '.cabinet.menu.php', '.htaccess', '.htaccess_back', 'indexblocks_index1.php' ,'.left.menu.php', '.only_catalog.menu.php', '.section.php', '.subtop_content_multilevel.menu.php', '.top.menu.php', '.top_catalog_sections.menu.php', '.top_catalog_sections.menu_ext.php', '.top_catalog_wide.menu.php', '.top_catalog_wide.menu_ext.php', '.top_content_multilevel.menu.php', '404.php', 'urlrewrite.php'];
     $html = '<div id="file-tree-root">';
+    function renderFolderContent($dirPath, $relBase, $level = 1) {
+        global $excluded_dirs, $excluded_files, $html;
+
+        $items = @scandir($dirPath);
+        if ($items === false) return;
+
+        $phpCount = 0;
+
+        foreach ($items as $item) {
+            if ($item === '.' || $item === '..') continue;
+            if (in_array($item, $excluded_dirs)) continue;
+
+            $fullPath = $dirPath . '/' . $item;
+            if (!is_readable($fullPath)) continue;
+
+            $relPath = $relBase . '/' . $item;
+
+            if (is_dir($fullPath)) {
+                // Папка второго уровня (или глубже) — показываем как вложенную
+                $html .= '<div class="folder-header" style="padding-left: ' . ($level * 15) . 'px;">';
+                $html .= '<strong>' . htmlspecialchars($item) . '/</strong></div>';
+                
+                $html .= '<ul class="folder-content" style="display:none; padding-left:20px; margin:5px 0;">';
+                
+                // Рекурсивно вызываем для следующего уровня (пока только до 2-го)
+                if ($level < 2) {
+                    renderFolderContent($fullPath, $relPath, $level + 1);
+                } else {
+                    // Можно оставить пустым или написать "(дальше не сканируем)"
+                }
+                
+                $html .= '</ul>';
+            } 
+            else {
+                $ext = strtolower(pathinfo($item, PATHINFO_EXTENSION));
+                if ($ext !== 'php') continue;
+                if (in_array($item, $excluded_files) || $item[0] === '.') continue;
+                $phpCount++;
+                $html .= '<li style="margin:5px 0; padding-left: ' . ($level * 15) . 'px;">';
+                $html .= htmlspecialchars($item);
+                $html .= ' <button class="btn-green" style="margin-left:10px;padding:6px 12px;font-size:0.9rem" ';
+                $html .= 'onclick="sendFileToN8n(\'' . addslashes($relPath) . '\')">Отправить в n8n</button>';
+                $html .= '</li>';
+            }
+        }
+        if ($phpCount === 0 && $level >= 1) {
+            $html .= '<li style="color:#888; font-style:italic; padding:8px 0; padding-left: ' . ($level * 15) . 'px;">';
+            $html .= '(нет нужных файлов)</li>';
+        }
+    }
+
     $level1 = @scandir($root);
-    if ($level1 === false) { echo 'Ошибка чтения корня'; exit; }
+    if ($level1 === false) {
+        echo 'Ошибка чтения корня';
+        exit;
+    }
     foreach ($level1 as $item1) {
         if ($item1 === '.' || $item1 === '..' || in_array($item1, $excluded_dirs)) continue;
+
         $full1 = $root . '/' . $item1;
         if (!is_readable($full1)) continue;
+
         $rel1 = '/' . $item1;
+
         if (is_dir($full1)) {
             $html .= '<div class="folder-header"><strong>' . htmlspecialchars($item1) . '/</strong></div>';
             $html .= '<ul class="folder-content" style="display:none;padding-left:20px;margin:5px 0">';
-            $level2 = @scandir($full1);
-            if ($level2 !== false) {
-                foreach ($level2 as $item2) {
-                    if ($item2 === '.' || $item2 === '..' || in_array($item2, $excluded_dirs)) continue;
-                    $full2 = $full1 . '/' . $item2;
-                    if (!is_readable($full2)) continue;
-                    $ext = strtolower(pathinfo($item2, PATHINFO_EXTENSION));
-                    if ($ext !== 'php') continue;
-                    if (in_array($item2, $excluded_files) || $item2[0] === '.') continue;
-                    $rel2 = $rel1 . '/' . $item2;
-                    $html .= '<li style="margin:5px 0">' . htmlspecialchars($item2) . ' <button class="btn-green" style="margin-left:10px;padding:6px 12px;font-size:0.9rem" onclick="sendFileToN8n(\'' . addslashes($rel2) . '\')">Отправить в n8n</button></li>';
-                }
-            }
+
+            renderFolderContent($full1, $rel1, 1);
+            
             $html .= '</ul>';
-        } else {
+        } 
+        else {
             $ext = strtolower(pathinfo($item1, PATHINFO_EXTENSION));
             if ($ext !== 'php') continue;
             if (in_array($item1, $excluded_files) || $item1[0] === '.') continue;
-            $html .= '<div style="margin:10px 0">' . htmlspecialchars($item1) . ' <button class="btn-green" style="margin-left:10px;padding:6px 12px;font-size:0.9rem" onclick="sendFileToN8n(\'' . addslashes($rel1) . '\')">Отправить в n8n</button></div>';
+            $html .= '<div style="margin:10px 0">';
+            $html .= htmlspecialchars($item1);
+            $html .= ' <button class="btn-green" style="margin-left:10px;padding:6px 12px;font-size:0.9rem" ';
+            $html .= 'onclick="sendFileToN8n(\'' . addslashes($rel1) . '\')">Отправить в n8n</button>';
+            $html .= '</div>';
         }
     }
+
     $html .= '</div>';
     echo $html;
     exit;
@@ -105,8 +158,9 @@ if (isset($_GET['file'])) {
 <!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Инструменты Bitrix</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<style>body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:#f4f6f9;color:#333;display:flex;min-height:100vh}.sidebar{width:260px;background:#2c3e50;color:#ecf0f1;position:fixed;height:100%;padding:2rem 0;box-shadow:4px 0 15px rgba(0,0,0,.1);overflow-y:auto}.sidebar h2{margin:0 0 2rem;padding:0 1.5rem;font-size:1.4rem;font-weight:600}.sidebar ul{list-style:none;padding:0;margin:0}.sidebar a{display:block;padding:14px 1.5rem;color:#ecf0f1;text-decoration:none;transition:.2s;font-size:1rem}.sidebar a:hover,.sidebar a.active{background:#34495e;color:#fff}.sidebar a.active{font-weight:600;border-left:4px solid #3498db}.main-content{margin-left:260px;padding:2rem;box-sizing:border-box;width:calc(100%-260px)}.page{display:none}.page.active{display:block}.app-container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08);padding:2.5rem}header h1{margin:0 0 1.5rem;font-size:1.8rem;text-align:center;color:#2c3e50}label{display:block;margin:15px 0 6px;font-weight:600;color:#444}input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-size:1rem}button{padding:12px 24px;background:#3498db;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500;transition:.2s}button:hover{background:#2980b9}button:disabled{background:#95a5a6;cursor:not-allowed}.btn-green{background:#27ae60}.btn-green:hover{background:#219a52}.file-input-wrapper{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:2rem}.file-input-label{padding:14px 36px;background:#3498db;color:#fff;border-radius:8px;cursor:pointer;font-weight:500;display:inline-block;transition:.2s}.file-input-label:hover{background:#2980b9}#file-name{margin-top:10px;width:100%;text-align:center;color:#666}.archive-content{border:1px dashed #ccc;border-radius:8px;padding:1.5rem;background:#fafafa;min-height:200px}.section-group{margin-bottom:1.5rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}.section-header{padding:14px 16px;background:#f8f9fa;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600}.section-header:hover{background:#eef2f6}.section-header .toggle-icon{transition:.2s}.section-header.collapsed .toggle-icon{transform:rotate(-90deg)}.section-body{padding:16px;border-top:1px solid #eee;display:none}.section-body.open{display:block}.images-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px}.image-item img{max-width:100%;max-height:180px;object-fit:contain;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:.2s}.image-item img:hover{transform:scale(1.05)}.image-name{margin-top:6px;font-size:.8rem;color:#666}.placeholder{text-align:center;padding:100px 20px;color:#95a5a6;font-size:1.3rem}.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:none;justify-content:center;align-items:center;z-index:1000}.modal{background:#fff;padding:30px;border-radius:12px;max-width:600px;width:90%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.2)}.results{margin-top:40px;padding:20px;background:#f8fff8;border-radius:10px;border:1px solid #d0e8d0;display:none}.results h2{color:#27ae60;text-align:center}.loading{text-align:center;color:#3498db;font-style:italic;margin:20px 0}.file-card{display:flex;align-items:center;background:#f0f8ff;padding:15px;border-radius:8px;margin-top:20px}.file-icon{font-size:40px;margin-right:20px}.download-btn{background:#27ae60;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none}.download-btn:hover{background:#219a52}.error-message{background:#fdf0f0;border:1px solid #f0c0c0;color:#c53030;padding:15px;border-radius:8px;margin-top:20px}.main-content{width:calc(100% - 260px);}#code-tree ul{padding-left:20px}#code-tree li{margin:8px 0}#code-tree strong{color:#2c3e50}.folder-header{cursor:pointer;font-weight:600;margin:10px 0;padding:5px;background:#f0f0f0;border-radius:4px}.folder-header:hover{background:#e0e0e0}</style>
-</head><body>
+<style>body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:#f4f6f9;color:#333;display:flex;min-height:100vh}.sidebar{width:260px;background:#2c3e50;color:#ecf0f1;position:fixed;height:100%;padding:2rem 0;box-shadow:4px 0 15px rgba(0,0,0,.1);overflow-y:auto}.sidebar h2{margin:0 0 2rem;padding:0 1.5rem;font-size:1.4rem;font-weight:600}.sidebar ul{list-style:none;padding:0;margin:0}.sidebar a{display:block;padding:14px 1.5rem;color:#ecf0f1;text-decoration:none;transition:.2s;font-size:1rem}.sidebar a:hover,.sidebar a.active{background:#34495e;color:#fff}.sidebar a.active{font-weight:600;border-left:4px solid #3498db}.main-content{margin-left:260px;padding:2rem;box-sizing:border-box;width:calc(100% - 260px)}.page{display:none}.page.active{display:block}.app-container{max-width:900px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.08);padding:2.5rem}#code-tree{background:#fff;border:1px solid #e2e8f0;border-radius:10px;overflow:hidden;font-size:.95rem;color:#1f2937;margin-top:20px;box-shadow:0 1px 3px rgba(0,0,0,.05)}.folder-header{padding:10px 16px;background:#f9fafb;border-bottom:1px solid #e5e7eb;cursor:pointer;user-select:none;font-weight:600;color:#111827;transition:background-color .14s ease}.folder-header:hover{background:#f1f5f9}.folder-header::before{content:"📁 ";margin-right:8px;opacity:.82}.folder-content{margin:2px 0 10px;padding:0;list-style:none;border-left:2px solid #e5e7eb;margin-left:24px}#code-tree li{display:flex;align-items:center;gap:8px;padding:7px 16px;padding-left:calc(16px + var(--level,0)*24px)!important}#code-tree li:hover{background:#fafbfc}#code-tree li::before{content:"📄 ";margin-right:8px;opacity:.78;flex-shrink:0}#code-tree .root-file{display:flex;align-items:center;justify-content:space-between;padding:7px 16px;color:#374151;transition:background-color .14s ease;border-bottom:1px solid #f3f4f6;margin:4px 0}#code-tree .root-file:hover{background:#fafbfc}#code-tree .root-file::before{content:"📄 ";margin-right:9px;opacity:.78;flex-shrink:0}#code-tree .root-file.index-file::before{content:"🏠 ";opacity:.9}#code-tree .btn-green{padding:4px 12px;font-size:.81rem;line-height:1.3;background:#6366f1;color:#fff;border:none;border-radius:6px;cursor:pointer;transition:all .14s ease;white-space:nowrap;margin-left:12px}#code-tree .btn-green:hover{background:#4f46e5;transform:translateY(-1px)}#code-tree li:contains("(нет нужных файлов)"),#code-tree .empty-message{color:#94a3b8;font-style:italic;font-size:.87rem;border-bottom:none;padding:8px 16px}.folder-header,#code-tree li,#code-tree .root-file{padding-left:calc(16px + var(--level,0)*24px)!important}header h1{margin:0 0 1.5rem;font-size:1.8rem;text-align:center;color:#2c3e50}label{display:block;margin:15px 0 6px;font-weight:600;color:#444}input,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;box-sizing:border-box;font-size:1rem}button{padding:12px 24px;background:#3498db;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:500;transition:.2s}button:hover{background:#2980b9}button:disabled{background:#95a5a6;cursor:not-allowed}.file-input-wrapper{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:2rem}.file-input-label{padding:14px 36px;background:#3498db;color:#fff;border-radius:8px;cursor:pointer;font-weight:500;display:inline-block;transition:.2s}.file-input-label:hover{background:#2980b9}#file-name{margin-top:10px;width:100%;text-align:center;color:#666}.archive-content{border:1px dashed #ccc;border-radius:8px;padding:1.5rem;background:#fafafa;min-height:200px}.section-group{margin-bottom:1.5rem;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}.section-header{padding:14px 16px;background:#f8f9fa;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600}.section-header:hover{background:#eef2f6}.section-header .toggle-icon{transition:.2s}.section-header.collapsed .toggle-icon{transform:rotate(-90deg)}.section-body{padding:16px;border-top:1px solid #eee;display:none}.section-body.open{display:block}.images-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px}.image-item img{max-width:100%;max-height:180px;object-fit:contain;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:.2s}.image-item img:hover{transform:scale(1.05)}.image-name{margin-top:6px;font-size:.8rem;color:#666}.placeholder{text-align:center;padding:100px 20px;color:#95a5a6;font-size:1.3rem}.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);display:none;justify-content:center;align-items:center;z-index:1000}.modal{background:#fff;padding:30px;border-radius:12px;max-width:600px;width:90%;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.2)}.results{margin-top:40px;padding:20px;background:#f8fff8;border-radius:10px;border:1px solid #d0e8d0;display:none}.results h2{color:#27ae60;text-align:center}.loading{text-align:center;color:#3498db;font-style:italic;margin:20px 0}.file-card{display:flex;align-items:center;background:#f0f8ff;padding:15px;border-radius:8px;margin-top:20px}.file-icon{font-size:40px;margin-right:20px}.download-btn{background:#27ae60;color:#fff;padding:10px 20px;border-radius:6px;text-decoration:none}.download-btn:hover{background:#219a52}.error-message{background:#fdf0f0;border:1px solid #f0c0c0;color:#c53030;padding:15px;border-radius:8px;margin-top:20px}</style>
+</head>
+<body>
 <nav class="sidebar"><h2>Инструменты</h2><ul>
 <li><a href="#import" class="active" onclick="switchPage('import')">Импорт информации с сайта клиента</a></li>
 <li><a href="#transfer" onclick="switchPage('transfer')">Перенос информации с сайта клиента</a></li>
@@ -277,6 +331,7 @@ function sendFileToN8n(relPath){
             const fd = new FormData();
             fd.append('code', code);
             fd.append('path', relPath);
+		fd.append('mode', 'improve_code');
             return fetch('https://n8n.takfit.ru/webhook-test/upgrade-code', {
                 method: 'POST',
                 body: fd
