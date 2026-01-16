@@ -296,25 +296,6 @@ document.querySelectorAll('.overlay').forEach(ov => {
     };
 });
 
-function openChangelog() {
-    const overlay = document.getElementById('changelog-overlay');
-    const content = document.getElementById('changelog-content');
-    if (!overlay || !content) return;
-
-    overlay.style.display = 'flex';
-    content.innerHTML = '<em>Загрузка истории версий...</em>';
-    fetch('/page_generation.php?action=changelog')
-        .then(r => {
-            if (!r.ok) throw new Error('Не удалось загрузить файл');
-            return r.text();
-        })
-        .then(text => {
-            content.innerHTML = marked.parse(text);
-        })
-        .catch(err => {
-            content.innerHTML = `<strong style="color:#c53030">Ошибка:</strong> ${err.message}`;
-        });
-}
 
 
 document.addEventListener('DOMContentLoaded', () => {
