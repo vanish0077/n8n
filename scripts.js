@@ -297,24 +297,25 @@ document.querySelectorAll('.overlay').forEach(ov => {
 });
 
 function openChangelog() {
-const overlay = document.getElementById('changelog-overlay');
-const content = document.getElementById('changelog-content');
-if (!overlay || !content) return;
-overlay.style.display = 'flex';
-content.innerHTML = 'Загрузка истории версий...';
-fetch('https://api.github.com/repos/vanish0077/n8n/contents/CHANGELOG.md', {
-headers: {
-'Accept': 'application/vnd.github.v3.raw',
-'Authorization': 'token YOUR_GITHUB_TOKEN'
+    const overlay = document.getElementById('changelog-overlay');
+    const content = document.getElementById('changelog-content');
+    if (!overlay || !content) return;
+
+    overlay.style.display = 'flex';
+    content.innerHTML = '<em>Загрузка истории версий...</em>';
+    fetch('/page_generation.php?action=changelog')
+        .then(r => {
+            if (!r.ok) throw new Error('Не удалось загрузить файл');
+            return r.text();
+        })
+        .then(text => {
+            content.innerHTML = marked.parse(text);
+        })
+        .catch(err => {
+            content.innerHTML = `<strong style="color:#c53030">Ошибка:</strong> ${err.message}`;
+        });
 }
-})
-.then(r => {
-if (!r.ok) throw new Error('Файл не найден');
-return r.text();
-})
-.then(text => content.innerHTML = marked.parse(text))
-.catch(err => content.innerHTML = <strong style="color:#c53030">Ошибка:</strong> ${err.message});
-}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     switchPage('import');
