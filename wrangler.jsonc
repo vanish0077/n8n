@@ -1,0 +1,5 @@
+{
+  "name": "n8n",
+  "compatibility_date": "2026-01-16",
+  "main": "src/index.ts"
+}
