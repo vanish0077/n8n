@@ -501,9 +501,8 @@ button:disabled {
 }
 
 #code-tree input[type="checkbox"].file-checkbox:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
     border-color: #3498db;
-    background-color: #3498db;
 }
 
 #code-tree input[type="checkbox"].file-checkbox:focus {
