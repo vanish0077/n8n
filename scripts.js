@@ -199,7 +199,7 @@ function initMultiSelectLogic() {
         show('Обработка', `Обрабатывается ${total} файл(ов)...`, true);
         const settings = {
             round_images: document.getElementById('opt_round_images')?.checked ?? false,
-            allow_short_tags: document.getElementById('opt_short_tags')?.checked ?? false,
+            no_style: document.getElementById('opt_no_style')?.checked ?? false,
             bitrix_best: document.getElementById('opt_bitrix_best')?.checked ?? false,
             d7_only: document.getElementById('opt_d7_only')?.checked ?? false,
             minify: document.getElementById('opt_minify')?.checked ?? false
@@ -247,7 +247,7 @@ async function improveSingleFile(relPath, settings) {
     fd.append('path', relPath);
     fd.append('mode', 'improve_code');
     fd.append('round_images',   settings.round_images   ? '1' : '0');
-    fd.append('allow_short_tags', settings.allow_short_tags ? '1' : '0');
+    fd.append('no_style', settings.no_style ? '1' : '0');
     fd.append('bitrix_best',    settings.bitrix_best    ? '1' : '0');
     fd.append('d7_only',        settings.d7_only        ? '1' : '0');
     fd.append('minify',         settings.minify         ? '1' : '0');
