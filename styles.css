@@ -232,6 +232,8 @@ button:disabled {
     width: 100%;
     text-align: center;
     color: #666;
+    font-style: italic;
+    color: #64748b;
 }
 .archive-content {
     border: 1px dashed #ccc;
@@ -239,6 +241,10 @@ button:disabled {
     padding: 1.5rem;
     background: #fafafa;
     min-height: 200px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    background: #f8fafc;
 }
 .section-group {
     margin-bottom: 1.5rem;
@@ -246,6 +252,10 @@ button:disabled {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
 }
 .section-header {
     padding: 14px 16px;
@@ -255,22 +265,39 @@ button:disabled {
     justify-content: space-between;
     align-items: center;
     font-weight: 600;
+    padding: 12px 16px;
+    background: #f1f5f9;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
 }
 .section-header:hover {
     background: #eef2f6;
+    background: #f1f5f9;
 }
 .section-header .toggle-icon {
     transition: 0.2s;
+    transform: rotate(0deg);
 }
 .section-header.collapsed .toggle-icon {
     transform: rotate(-90deg);
+    transform: rotate(0deg);
+}
+.section-header:not(.collapsed) .toggle-icon {
+    transform: rotate(180deg);
 }
 .section-body {
     padding: 16px;
     border-top: 1px solid #eee;
     display: none;
+    display: none;
+    padding: 16px;
+    background: white;
 }
 .section-body.open {
+    display: block;
     display: block;
 }
 .images-grid {
@@ -278,6 +305,9 @@ button:disabled {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
     margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
 }
 .image-item img {
     max-width: 100%;
@@ -286,6 +316,9 @@ button:disabled {
     border-radius: 6px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: 0.2s;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
 }
 .image-item img:hover {
     transform: scale(1.05);
@@ -294,6 +327,12 @@ button:disabled {
     margin-top: 6px;
     font-size: 0.8rem;
     color: #666;
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+}
+.image-item {
+    text-align: center;
 }
 .placeholder {
     text-align: center;
@@ -492,4 +531,91 @@ input[type="url"]::placeholder {
     color: #c53030;
     margin-top: 0.8rem;
     text-align: center;
+}
+/* Новые стили для раздела переноса */
+.transfer-tabs {
+    margin-top: 20px;
+}
+.tab-buttons {
+    display: flex;
+    border-bottom: 2px solid #e2e8f0;
+    margin-bottom: 20px;
+}
+.tab-btn {
+    padding: 12px 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    color: #64748b;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+.tab-btn.active {
+    color: #007bff;
+    border-bottom-color: #007bff;
+}
+.tab-panel {
+    display: none;
+    padding: 20px 0;
+}
+.tab-panel.active {
+    display: block;
+}
+.file-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.file-input-label {
+    padding: 10px 16px;
+    background: #f8fafc;
+    border: 2px dashed #cbd5e1;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+.file-input-label:hover {
+    background: #e2e8f0;
+    border-color: #94a3b8;
+}
+.btn-green {
+    padding: 10px 16px;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-green:hover {
+    background: #059669;
+}
+#infoblock-id, #section-id {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.apply-btn {
+    padding: 8px 16px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+.apply-btn:hover {
+    background: #0056b3;
 }
