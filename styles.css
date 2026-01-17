@@ -552,6 +552,26 @@ input[type="url"]::placeholder {
     border-bottom: 2px solid transparent;
     transition: all 0.2s ease;
 }
+.tab-btn:hover {
+    color: #007bff; /* Темнеет цвет текста для контраста */
+    background: #f8f9fa; /* Легкий серый фон для выделения */
+    border-bottom-color: #e2e8f0; /* Светлый нижний бордер */
+    border-radius: 6px 6px 0 0; /* Легкое скругление углов сверху */
+    transform: translateY(-1px); /* Легкий подъем для интерактивности */
+}
+
+.tab-btn.active:hover {
+    color: #0056b3; /* Темнее активного цвета для hover */
+    background: #e3f2fd; /* Светло-синий фон для активного таба */
+    border-bottom-color: #007bff; /* Сохраняем активный бордер */
+    transform: none; /* Отменяем подъем для активного */
+}
+
+/* Переопределение общего button:hover, чтобы не влиять на табы (если нужно) */
+button.tab-btn:hover {
+    /* Здесь ничего не добавлять, чтобы hover для табов применялся сверху */
+}
+
 .tab-btn.active {
     color: #007bff;
     border-bottom-color: #007bff;
