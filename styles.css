@@ -6,7 +6,6 @@ body {
     display: flex;
     min-height: 100vh;
 }
-
 .sidebar {
     width: 260px;
     background: #2c3e50;
@@ -17,20 +16,17 @@ body {
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
 }
-
 .sidebar h2 {
     margin: 0 0 2rem;
     padding: 0 1.5rem;
     font-size: 1.4rem;
     font-weight: 600;
 }
-
 .sidebar ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
-
 .sidebar a {
     display: block;
     padding: 14px 1.5rem;
@@ -39,33 +35,27 @@ body {
     transition: 0.2s;
     font-size: 1rem;
 }
-
 .sidebar a:hover,
 .sidebar a.active {
     background: #34495e;
     color: #fff;
 }
-
 .sidebar a.active {
     font-weight: 600;
     border-left: 4px solid #3498db;
 }
-
 .main-content {
     margin-left: 260px;
     padding: 2rem;
     box-sizing: border-box;
     width: calc(100% - 260px);
 }
-
 .page {
     display: none;
 }
-
 .page.active {
     display: block;
 }
-
 .app-container {
     max-width: 900px;
     margin: 0 auto;
@@ -74,7 +64,6 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 2.5rem;
 }
-
 #code-tree {
     background: #fff;
     border: 1px solid #e2e8f0;
@@ -85,7 +74,6 @@ body {
     margin-top: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
-
 .folder-header {
     padding: 10px 16px;
     background: #f9fafb;
@@ -96,17 +84,14 @@ body {
     color: #111827;
     transition: background-color 0.14s ease;
 }
-
 .folder-header:hover {
     background: #f1f5f9;
 }
-
 .folder-header::before {
     content: "📁 ";
     margin-right: 8px;
     opacity: 0.82;
 }
-
 .folder-content {
     margin: 2px 0 10px;
     padding: 0;
@@ -114,7 +99,6 @@ body {
     border-left: 2px solid #e5e7eb;
     margin-left: 24px;
 }
-
 #code-tree li {
     display: flex;
     align-items: center;
@@ -122,18 +106,15 @@ body {
     padding: 7px 16px;
     padding-left: calc(16px + var(--level, 0) * 24px) !important;
 }
-
 #code-tree li:hover {
     background: #fafbfc;
 }
-
 #code-tree li::before {
     content: "📄 ";
     margin-right: 8px;
     opacity: 0.78;
     flex-shrink: 0;
 }
-
 #code-tree .root-file {
     display: flex;
     align-items: center;
@@ -144,23 +125,19 @@ body {
     border-bottom: 1px solid #f3f4f6;
     margin: 4px 0;
 }
-
 #code-tree .root-file:hover {
     background: #fafbfc;
 }
-
 #code-tree .root-file::before {
     content: "📄 ";
     margin-right: 9px;
     opacity: 0.78;
     flex-shrink: 0;
 }
-
 #code-tree .root-file.index-file::before {
     content: "🏠 ";
     opacity: 0.9;
 }
-
 #code-tree .btn-green {
     padding: 4px 12px;
     font-size: 0.81rem;
@@ -174,12 +151,10 @@ body {
     white-space: nowrap;
     margin-left: 12px;
 }
-
 #code-tree .btn-green:hover {
     background: #4f46e5;
     transform: translateY(-1px);
 }
-
 #code-tree li:contains("(нет нужных файлов)"),
 #code-tree .empty-message {
     color: #94a3b8;
@@ -188,27 +163,23 @@ body {
     border-bottom: none;
     padding: 8px 16px;
 }
-
 .folder-header,
 #code-tree li,
 #code-tree .root-file {
     padding-left: calc(16px + var(--level, 0) * 24px) !important;
 }
-
 header h1 {
     margin: 0 0 1.5rem;
     font-size: 1.8rem;
     text-align: center;
     color: #2c3e50;
 }
-
 label {
     display: block;
     margin: 15px 0 6px;
     font-weight: 600;
     color: #444;
 }
-
 input,
 select {
     width: 100%;
@@ -218,7 +189,6 @@ select {
     box-sizing: border-box;
     font-size: 1rem;
 }
-
 button {
     padding: 12px 24px;
     background: #3498db;
@@ -229,16 +199,13 @@ button {
     font-weight: 500;
     transition: 0.2s;
 }
-
 button:hover {
     background: #2980b9;
 }
-
 button:disabled {
     background: #95a5a6;
     cursor: not-allowed;
 }
-
 .file-input-wrapper {
     display: flex;
     align-items: center;
@@ -247,7 +214,6 @@ button:disabled {
     flex-wrap: wrap;
     margin-bottom: 2rem;
 }
-
 .file-input-label {
     padding: 14px 36px;
     background: #3498db;
@@ -258,18 +224,15 @@ button:disabled {
     display: inline-block;
     transition: 0.2s;
 }
-
 .file-input-label:hover {
     background: #2980b9;
 }
-
 #file-name {
     margin-top: 10px;
     width: 100%;
     text-align: center;
     color: #666;
 }
-
 .archive-content {
     border: 1px dashed #ccc;
     border-radius: 8px;
@@ -277,7 +240,6 @@ button:disabled {
     background: #fafafa;
     min-height: 200px;
 }
-
 .section-group {
     margin-bottom: 1.5rem;
     background: #fff;
@@ -285,7 +247,6 @@ button:disabled {
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
-
 .section-header {
     padding: 14px 16px;
     background: #f8f9fa;
@@ -295,36 +256,29 @@ button:disabled {
     align-items: center;
     font-weight: 600;
 }
-
 .section-header:hover {
     background: #eef2f6;
 }
-
 .section-header .toggle-icon {
     transition: 0.2s;
 }
-
 .section-header.collapsed .toggle-icon {
     transform: rotate(-90deg);
 }
-
 .section-body {
     padding: 16px;
     border-top: 1px solid #eee;
     display: none;
 }
-
 .section-body.open {
     display: block;
 }
-
 .images-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
     margin-top: 12px;
 }
-
 .image-item img {
     max-width: 100%;
     max-height: 180px;
@@ -333,24 +287,20 @@ button:disabled {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     transition: 0.2s;
 }
-
 .image-item img:hover {
     transform: scale(1.05);
 }
-
 .image-name {
     margin-top: 6px;
     font-size: 0.8rem;
     color: #666;
 }
-
 .placeholder {
     text-align: center;
     padding: 100px 20px;
     color: #95a5a6;
     font-size: 1.3rem;
 }
-
 .overlay {
     position: fixed;
     top: 0;
@@ -363,7 +313,6 @@ button:disabled {
     align-items: center;
     z-index: 1000;
 }
-
 .modal {
     background: #fff;
     padding: 30px;
@@ -373,7 +322,6 @@ button:disabled {
     text-align: center;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
 }
-
 .results {
     margin-top: 40px;
     padding: 20px;
@@ -382,19 +330,16 @@ button:disabled {
     border: 1px solid #d0e8d0;
     display: none;
 }
-
 .results h2 {
     color: #27ae60;
     text-align: center;
 }
-
 .loading {
     text-align: center;
     color: #3498db;
     font-style: italic;
     margin: 20px 0;
 }
-
 .file-card {
     display: flex;
     align-items: center;
@@ -403,12 +348,10 @@ button:disabled {
     border-radius: 8px;
     margin-top: 20px;
 }
-
 .file-icon {
     font-size: 40px;
     margin-right: 20px;
 }
-
 .download-btn {
     background: #27ae60;
     color: #fff;
@@ -416,11 +359,9 @@ button:disabled {
     border-radius: 6px;
     text-decoration: none;
 }
-
 .download-btn:hover {
     background: #219a52;
 }
-
 .error-message {
     background: #fdf0f0;
     border: 1px solid #f0c0c0;
@@ -429,7 +370,6 @@ button:disabled {
     border-radius: 8px;
     margin-top: 20px;
 }
-
 /* Стили для чекбоксов в настройках (оставлены без изменений) */
 .settings-grid input[type="checkbox"] {
     appearance: none;
@@ -442,12 +382,10 @@ button:disabled {
     transition: all 0.15s ease;
     position: relative;
 }
-
 .settings-grid input[type="checkbox"]:checked {
     background-color: #3498db;
     border-color: #3498db;
 }
-
 .settings-grid input[type="checkbox"]:checked::before {
     content: "✓";
     position: absolute;
@@ -458,17 +396,14 @@ button:disabled {
     font-size: 14px;
     font-weight: bold;
 }
-
 .settings-grid input[type="checkbox"]:hover {
     transform: scale(1.1);
     border-color: #3498db;
 }
-
 .settings-grid input[type="checkbox"]:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
 }
-
 /* Новые стили для чекбоксов в дереве файлов (#code-tree) */
 #code-tree input[type="checkbox"].file-checkbox {
     appearance: none;
@@ -483,12 +418,10 @@ button:disabled {
     flex-shrink: 0;
     margin: 0;
 }
-
 #code-tree input[type="checkbox"].file-checkbox:checked {
     background-color: #3498db;
     border-color: #3498db;
 }
-
 #code-tree input[type="checkbox"].file-checkbox:checked::before {
     content: "✓";
     position: absolute;
@@ -499,17 +432,14 @@ button:disabled {
     font-size: 12px;
     font-weight: bold;
 }
-
 #code-tree input[type="checkbox"].file-checkbox:hover {
     transform: scale(1.1);
     border-color: #3498db;
 }
-
 #code-tree input[type="checkbox"].file-checkbox:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }
-
 /* Улучшения для label в дереве файлов */
 #code-tree label {
     display: flex;
@@ -523,12 +453,43 @@ button:disabled {
     transition: color 0.2s ease;
     user-select: none;
 }
-
 #code-tree label:hover {
     color: #1f2937;
 }
-
 .option span {
     font-size: 1rem;
     color: #333;
+}
+.container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2.5rem 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 520px;
+    border: 1px solid #e2e8f0;
+}
+h1 {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    color: #2c3e50;
+}
+input[type="url"] {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    color: #333;
+    box-sizing: border-box;
+    margin-bottom: 1.2rem;
+}
+input[type="url"]::placeholder {
+    color: #94a3b8;
+}
+.error {
+    color: #c53030;
+    margin-top: 0.8rem;
+    text-align: center;
 }
