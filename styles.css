@@ -647,3 +647,8 @@ button.tab-btn:hover {
 .btn-danger:hover {
             background-color: #b91c1c;
 }
+.processed-error {
+    color: #c53030; /* Устанавливаем красный цвет для текста */
+    font-weight: 500;  /* Делаем текст более жирным для акцента */
+    text-decoration: none; /* Убираем любое зачеркивание или подчеркивание */
+}
