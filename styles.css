@@ -662,11 +662,11 @@ button.tab-btn:hover {
         li > label.processed-success {
             color: #16a34a;
         }
-        li > label.processed-error {
-            color: #c53030; /* Устанавливаем красный цвет для текста */
-    font-weight: 500;  /* Делаем текст более жирным для акцента */
-
-        }
+        li > label.processed-error span {
+    color: #c53030;      /* Применяем красный цвет напрямую к тексту внутри span */
+    font-weight: 500;     /* Делаем текст жирнее */
+    text-decoration: none;/* Убираем зачеркивание, если оно где-то осталось */
+}
         .code-preview-content {
             text-align: left;
             max-height: 70vh;
