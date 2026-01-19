@@ -639,3 +639,11 @@ button.tab-btn:hover {
 .apply-btn:hover {
     background: #0056b3;
 }
+
+.btn-danger {
+            background-color: #dc2626;
+            color: white;
+}
+.btn-danger:hover {
+            background-color: #b91c1c;
+}
