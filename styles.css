@@ -647,8 +647,37 @@ button.tab-btn:hover {
 .btn-danger:hover {
             background-color: #b91c1c;
 }
-.processed-error {
-    color: #c53030; /* Устанавливаем красный цвет для текста */
+  .file-actions {
+            display: inline-flex;
+            gap: 8px;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+        .btn-small {
+            padding: 4px 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            border-radius: 4px;
+        }
+        li > label.processed-success {
+            color: #16a34a;
+        }
+        li > label.processed-error {
+            color: #c53030; /* Устанавливаем красный цвет для текста */
     font-weight: 500;  /* Делаем текст более жирным для акцента */
-    text-decoration: none; /* Убираем любое зачеркивание или подчеркивание */
-}
+
+        }
+        .code-preview-content {
+            text-align: left;
+            max-height: 70vh;
+            overflow-y: auto;
+            background: #f8f9fa;
+            color: #212529;
+            padding: 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre;
+            word-break: break-all;
+        }
