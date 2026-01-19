@@ -663,9 +663,9 @@ button.tab-btn:hover {
             color: #16a34a;
         }
         li > label.processed-error {
-    color: #c53030;      /* Применяем красный цвет напрямую к тексту внутри span */
-    font-weight: 500;     /* Делаем текст жирнее */
-   text-decoration: line-through;/* Убираем зачеркивание, если оно где-то осталось */
+    color: #c53030 !important;      
+    font-weight: 500;    
+   text-decoration: none;
 }
         .code-preview-content {
             text-align: left;
