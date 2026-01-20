@@ -300,3 +300,54 @@ label[for="file-checkbox"]:hover {
         flex-direction: column;
     }
 }
+/* Красивые чекбоксы для настроек (аналогично файлам) */
+.settings-grid input[type="checkbox"] {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    background: #ffffff;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.settings-grid input[type="checkbox"]:checked {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.settings-grid input[type="checkbox"]:checked::after {
+    content: "✔";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.settings-grid input[type="checkbox"]:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.settings-grid label.option {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Увеличиваем gap для большего чекбокса */
+    cursor: pointer;
+    padding: 12px 16px; /* Немного больше padding для комфорта */
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.settings-grid label.option:hover {
+    background-color: #e0f2fe;
+    border-color: #3b82f6;
+}
