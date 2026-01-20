@@ -1,3 +1,5 @@
+Встроены все правила стилей из первого блока в основной CSS-блок, разрешив возможные конфликты путём переопределения или сохранения приоритета (например, для .container, label, input, button). Убраны дублирующиеся правила, сохранены отступы и структура.
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -5,6 +7,10 @@ body {
     color: #333;
     display: flex;
     min-height: 100vh;
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 0 15px;
 }
 .sidebar {
     width: 260px;
@@ -177,15 +183,15 @@ header h1 {
 label {
     display: block;
     margin: 15px 0 6px;
-    font-weight: 600;
+    font-weight: bold;
     color: #444;
 }
 input,
 select {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     box-sizing: border-box;
     font-size: 1rem;
 }
@@ -198,6 +204,9 @@ button {
     cursor: pointer;
     font-weight: 500;
     transition: 0.2s;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 16px;
 }
 button:hover {
     background: #2980b9;
@@ -500,6 +509,10 @@ button:disabled {
     color: #333;
 }
 .container {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     background: rgba(255, 255, 255, 0.9);
     padding: 2.5rem 3rem;
     border-radius: 12px;
@@ -508,7 +521,8 @@ button:disabled {
     max-width: 520px;
     border: 1px solid #e2e8f0;
 }
-h1 {
+h1, h2, h3 {
+    color: #005a9c;
     text-align: center;
     margin-bottom: 1.8rem;
     color: #2c3e50;
@@ -532,6 +546,63 @@ input[type="url"]::placeholder {
     margin-top: 0.8rem;
     text-align: center;
 }
+.form-group, .selector-group {
+    margin-bottom: 20px;
+    margin-top:10px;
+    margin-bottom:0;
+}
+.selector-group label {
+    font-weight:normal;
+}
+#loader {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    font-weight: bold;
+    color: #007bff;
+}
+optgroup {
+    font-weight: bold;
+    background-color:#f0f0f0;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.preview-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    gap: 20px;
+}
+.preview-item img {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    border:1px solid #ddd;
+    background-color: #f0f0f0;
+}
+.preview-item .info {
+    flex-grow: 1;
+    min-width: 0;
+}
 /* Новые стили для раздела переноса */
 .transfer-tabs {
     margin-top: 20px;
@@ -551,6 +622,13 @@ input[type="url"]::placeholder {
     color: #64748b;
     border-bottom: 2px solid transparent;
     transition: all 0.2s ease;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #666;
+    position: relative;
 }
 .tab-btn:hover {
     color: #007bff; /* Темнеет цвет текста для контраста */
@@ -575,6 +653,17 @@ button.tab-btn:hover {
 .tab-btn.active {
     color: #007bff;
     border-bottom-color: #007bff;
+    font-weight: bold;
+    color: #1e40af;
+}
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #1e40af;
 }
 .tab-panel {
     display: none;
