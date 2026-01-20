@@ -165,6 +165,65 @@ button:disabled {
     font-weight: 500;
 }
 
+#code-tree {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 0.95rem;
+    color: #1f2937;
+    margin-top: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.folder-header {
+    padding: 10px 16px;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 600;
+    color: #111827;
+    transition: background-color 0.14s ease;
+}
+
+.folder-header:hover {
+    background: #f1f5f9;
+}
+
+.folder-header::before {
+    content: "📁 ";
+    margin-right: 8px;
+    opacity: 0.82;
+}
+
+.folder-content {
+    margin: 2px 0 10px;
+    padding: 0;
+    list-style: none;
+    border-left: 2px solid #e5e7eb;
+    margin-left: 24px;
+}
+
+#code-tree li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+}
+
+#code-tree li:hover {
+    background: #fafbfc;
+}
+
+#code-tree li::before {
+    content: "📄 ";
+    margin-right: 8px;
+    opacity: 0.78;
+    flex-shrink: 0;
+}
+
 #importer-panel {
     position: fixed;
     bottom: 20px;
@@ -185,30 +244,6 @@ button:disabled {
     border: 1px solid #555;
     pointer-events: auto;
     min-width: 380px;
-}
-
-#importer-panel-title {
-    margin-bottom: 16px;
-    font-weight: bold;
-    color: #88ff88;
-    font-size: 1.1em;
-}
-
-#importer-exit-btn {
-    background: rgba(100,100,140,0.8);
-    color: #e0e0ff;
-    border: 1px solid #555;
-    border-radius: 4px;
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-}
-
-#importer-exit-btn:hover {
-    background: rgba(120,120,160,0.9);
-    color: #ffffff;
 }
 
 .importer-highlight {
