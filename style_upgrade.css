@@ -1,9 +1,9 @@
-/* Общие стили для контейнеров */
 .main-content {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: #ffffff;
     color: #333333;
     line-height: 1.6;
+    font-size: 1.05em;
 }
 
 .app-container {
@@ -13,7 +13,7 @@
 }
 
 header h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
     color: #1f2937;
     border-bottom: 2px solid #e5e7eb;
     padding-bottom: 10px;
@@ -41,6 +41,7 @@ header h1 {
     margin: 8px 0;
     padding: 4px 0;
     transition: background-color 0.2s ease;
+    font-size: 1.05em;
 }
 
 #code-tree li:hover {
@@ -67,6 +68,7 @@ header h1 {
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: 1.1em;
 }
 
 .folder-details summary:hover, .folder-details-root summary:hover {
@@ -75,13 +77,13 @@ header h1 {
 
 .folder-header::before {
     content: "📁"; /* Эмодзи папки для разделов */
-    font-size: 1.1em;
+    font-size: 1.2em;
 }
 
 /* Иконки для файлов */
 .file-checkbox + span::before {
     content: "📄 "; /* Иконка файла перед именем */
-    font-size: 1em;
+    font-size: 1.1em;
     margin-right: 4px;
 }
 
@@ -128,6 +130,7 @@ label[for="file-checkbox"] {
     padding: 8px 12px;
     border-radius: 6px;
     transition: background-color 0.2s ease;
+    font-size: 1.05em;
 }
 
 label[for="file-checkbox"]:hover {
@@ -153,6 +156,7 @@ label[for="file-checkbox"]:hover {
     border-radius: 6px;
     transition: background-color 0.2s ease;
     border: 1px solid transparent;
+    font-size: 1.05em;
 }
 
 .settings-grid label.option:hover {
@@ -173,11 +177,12 @@ label[for="file-checkbox"]:hover {
 #selected-count {
     font-weight: 600;
     color: #3b82f6;
+    font-size: 1.1em;
 }
 
 /* Кнопки с закруглением */
 .btn-secondary, .btn-green, .btn-small, .modal-close {
-    background: #6b7280;
+    background: #6366f1; /* Более приятный индиго вместо серого */
     color: #ffffff;
     border: none;
     padding: 10px 16px;
@@ -186,6 +191,7 @@ label[for="file-checkbox"]:hover {
     font-weight: 500;
     transition: all 0.2s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.05em;
 }
 
 .btn-green {
@@ -194,13 +200,13 @@ label[for="file-checkbox"]:hover {
 
 .btn-small {
     padding: 6px 12px;
-    font-size: 0.875rem;
+    font-size: 0.95em;
 }
 
 .btn-secondary:hover, .btn-green:hover, .btn-small:hover, .modal-close:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    background: #4b5563; /* Для secondary */
+    background: #4f46e5; /* Hover для индиго */
 }
 
 .btn-green:hover {
@@ -268,12 +274,13 @@ label[for="file-checkbox"]:hover {
 
 .modal h3 {
     margin: 0 0 16px;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
 }
 
 .modal p {
     margin: 0 0 20px;
     color: #6b7280;
+    font-size: 1.05em;
 }
 
 .modal-close {
@@ -300,6 +307,7 @@ label[for="file-checkbox"]:hover {
         flex-direction: column;
     }
 }
+
 /* Красивые чекбоксы для настроек (аналогично файлам) */
 .settings-grid input[type="checkbox"] {
     appearance: none;
