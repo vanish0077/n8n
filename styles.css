@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     background: #f4f6f9;
     color: #333;
     display: flex;
@@ -8,12 +8,14 @@ body {
 }
 
 .main-content {
+    margin-left: 0;
+    max-width: 900px;
     margin: 2rem auto;
     padding: 2rem;
     box-sizing: border-box;
     width: 100%;
-    max-width: 900px;
 }
+
 .app-container {
     max-width: 900px;
     margin: 0 auto;
@@ -22,12 +24,14 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     padding: 2.5rem;
 }
+
 header h1 {
     margin: 0 0 1.5rem;
     font-size: 1.8rem;
     text-align: center;
     color: #2c3e50;
 }
+
 .tab-buttons {
     display: flex;
     gap: 10px;
@@ -57,6 +61,7 @@ header h1 {
 .tab-panel.active {
     display: block;
 }
+
 form {
     display: flex;
     flex-direction: column;
@@ -64,8 +69,7 @@ form {
 }
 
 input[type="url"],
-input[type="file"],
-select {
+input[type="file"] {
     padding: 10px 12px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
@@ -74,10 +78,6 @@ select {
     box-sizing: border-box;
 }
 
-label {
-    font-weight: 500;
-    color: #374151;
-}
 button {
     padding: 12px 24px;
     background: #3498db;
@@ -86,7 +86,7 @@ button {
     border-radius: 8px;
     cursor: pointer;
     font-weight: 500;
-    transition: background 0.2s;
+    transition: 0.2s;
 }
 
 button:hover {
@@ -94,24 +94,16 @@ button:hover {
 }
 
 button:disabled {
-    background: #9ca3af;
+    background: #95a5a6;
     cursor: not-allowed;
 }
 
-.download-btn {
-    display: inline-block;
-    padding: 10px 18px;
-    background: #10b981;
-    color: #fff;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background 0.2s;
+.error {
+    text-align: center;
+    margin-top: 15px;
+    color: #c53030;
 }
 
-.download-btn:hover {
-    background: #059669;
-}
 #site-process-area,
 #file-process-area {
     display: none;
@@ -126,6 +118,7 @@ button:disabled {
     display: none;
     text-align: center;
 }
+
 .loading-bar-animation {
     height: 6px;
     width: 100%;
@@ -141,30 +134,16 @@ button:disabled {
 }
 
 @keyframes loading {
-    0% {
-        background-position: 100% 0;
-    }
-    100% {
-        background-position: -100% 0;
-    }
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
 }
-.error,
-.error-message {
-    color: #b91c1c;
-    background: #fee2e2;
-    padding: 10px 14px;
-    border-radius: 6px;
-    margin-top: 14px;
-    text-align: center;
-}
+
 .file-card {
     display: flex;
     align-items: center;
     gap: 14px;
     padding: 16px;
     border-radius: 10px;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
 }
 
 .file-icon {
@@ -174,43 +153,49 @@ button:disabled {
 .file-info {
     display: flex;
     flex-direction: column;
-    gap: 6px;
 }
 
-.file-name {
-    font-weight: bold;
-    font-size: 1.1em;
+.download-btn {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #10b981;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
 }
-.importer-highlight {
-    outline: 4px solid #00ff55;
-    outline-offset: 2px;
-    background-color: rgba(0, 255, 85, 0.22);
-    box-shadow:
-        inset 0 0 18px rgba(0, 255, 85, 0.55),
-        0 0 14px rgba(0, 255, 85, 0.4);
-    transition: all 0.14s ease;
-}
+
 #importer-panel {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: rgba(20, 20, 30, 0.96);
+    background: rgba(20,20,30,0.96);
     color: #e0e0ff;
-    padding: 20px;
+    padding: 20px 20px;
     border-radius: 10px;
     font-family: Consolas, monospace;
     font-size: 13px;
     z-index: 2147483647;
     max-width: 92vw;
     max-height: 45vh;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: auto;
     white-space: nowrap;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.7);
     border: 1px solid #555;
+    pointer-events: auto;
     min-width: 380px;
 }
-#importer-panel button {
-    background: rgba(100, 100, 140, 0.8);
+
+#importer-panel-title {
+    margin-bottom: 16px;
+    font-weight: bold;
+    color: #88ff88;
+    font-size: 1.1em;
+}
+
+#importer-exit-btn {
+    background: rgba(100,100,140,0.8);
     color: #e0e0ff;
     border: 1px solid #555;
     border-radius: 4px;
@@ -221,7 +206,17 @@ button:disabled {
     transition: background 0.2s, color 0.2s;
 }
 
-#importer-panel button:hover {
-    background: rgba(120, 120, 160, 0.9);
-    color: #fff;
+#importer-exit-btn:hover {
+    background: rgba(120,120,160,0.9);
+    color: #ffffff;
+}
+
+.importer-highlight {
+    outline: 4px solid #00ff55;
+    outline-offset: 2px;
+    background-color: rgba(0, 255, 85, 0.22);
+    box-shadow:
+        inset 0 0 18px rgba(0, 255, 85, 0.55),
+        0 0 14px rgba(0, 255, 85, 0.4);
+    transition: all 0.14s ease;
 }
