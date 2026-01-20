@@ -46,7 +46,6 @@ header h1 {
 #code-tree li:hover {
     background-color: rgba(59, 130, 246, 0.1);
     border-radius: 6px;
-    padding-left: 10px;
 }
 
 /* Стили для папок и разделов */
@@ -89,8 +88,8 @@ header h1 {
 /* Красивые чекбоксы */
 .file-checkbox {
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     border: 2px solid #d1d5db;
     border-radius: 4px;
     background: #ffffff;
@@ -113,7 +112,7 @@ header h1 {
     transform: translate(-50%, -50%);
     color: #ffffff;
     font-weight: bold;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .file-checkbox:hover {
