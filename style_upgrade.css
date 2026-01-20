@@ -1,0 +1,303 @@
+/* Общие стили для контейнеров */
+.main-content {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #ffffff;
+    color: #333333;
+    line-height: 1.6;
+}
+
+.app-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: #1f2937;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Стили для дерева файлов */
+#code-tree {
+    background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 20px;
+    max-height: 60vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+#code-tree ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+#code-tree li {
+    margin: 8px 0;
+    padding: 4px 0;
+    transition: background-color 0.2s ease;
+}
+
+#code-tree li:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-radius: 6px;
+    padding-left: 10px;
+}
+
+/* Стили для папок и разделов */
+.folder-details, .folder-details-root {
+    margin: 10px 0;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.folder-details summary, .folder-details-root summary {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #374151;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.folder-details summary:hover, .folder-details-root summary:hover {
+    background-color: #f3f4f6;
+}
+
+.folder-header::before {
+    content: "📁"; /* Эмодзи папки для разделов */
+    font-size: 1.1em;
+}
+
+/* Иконки для файлов */
+.file-checkbox + span::before {
+    content: "📄 "; /* Иконка файла перед именем */
+    font-size: 1em;
+    margin-right: 4px;
+}
+
+/* Красивые чекбоксы */
+.file-checkbox {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #d1d5db;
+    border-radius: 4px;
+    background: #ffffff;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+}
+
+.file-checkbox:checked {
+    background: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.file-checkbox:checked::after {
+    content: "✔";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.file-checkbox:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+label[for="file-checkbox"] {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+label[for="file-checkbox"]:hover {
+    background-color: #f3f4f6;
+}
+
+/* Стили для настроек */
+#settings-and-actions {
+    background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.settings-grid label.option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.settings-grid label.option:hover {
+    background-color: #e0f2fe;
+    border-color: #3b82f6;
+}
+
+#multi-send-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+}
+
+#selected-count {
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+/* Кнопки с закруглением */
+.btn-secondary, .btn-green, .btn-small, .modal-close {
+    background: #6b7280;
+    color: #ffffff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-green {
+    background: #10b981;
+}
+
+.btn-small {
+    padding: 6px 12px;
+    font-size: 0.875rem;
+}
+
+.btn-secondary:hover, .btn-green:hover, .btn-small:hover, .modal-close:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background: #4b5563; /* Для secondary */
+}
+
+.btn-green:hover {
+    background: #059669;
+}
+
+.btn-secondary:disabled, .btn-green:disabled, .btn-small:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#buttons-container {
+    display: flex;
+    gap: 10px;
+    transition: opacity 0.2s ease;
+}
+
+/* Статусы обработки */
+.processed-success {
+    background-color: #d1fae5 !important;
+    border-left: 4px solid #10b981;
+}
+
+.processed-error {
+    background-color: #fee2e2 !important;
+    border-left: 4px solid #ef4444;
+}
+
+/* Действия файлов */
+.file-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 8px;
+    background: #f8fafc;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+/* Модальное окно */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 20px 25px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.modal h3 {
+    margin: 0 0 16px;
+    font-size: 1.5rem;
+}
+
+.modal p {
+    margin: 0 0 20px;
+    color: #6b7280;
+}
+
+.modal-close {
+    width: 100%;
+    margin-top: 8px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 10px;
+    }
+    
+    #settings-and-actions {
+        padding: 16px;
+    }
+    
+    #multi-send-panel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .file-actions {
+        flex-direction: column;
+    }
+}
