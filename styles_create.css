@@ -155,6 +155,7 @@ h2, h3 {
     font-size: 1em;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     background: #ffffff;
+    box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -220,7 +221,7 @@ h2, h3 {
     background: #6366f1;
     color: #ffffff;
     border: none;
-    padding: 10px 16px;
+    padding: 12px 24px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
@@ -266,14 +267,11 @@ h2, h3 {
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease;
 }
 
 .file-input-label:hover {
     background: #4f46e5;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 #file-name-static {
@@ -374,13 +372,11 @@ h2, h3 {
     font-weight: 500;
     margin-bottom: 16px;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .apply-btn:hover {
     background: #059669;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .images-grid {
@@ -396,6 +392,10 @@ h2, h3 {
     border-radius: 6px;
     border: 1px solid #e5e7eb;
     transition: box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .image-item:hover {
@@ -403,9 +403,10 @@ h2, h3 {
 }
 
 .image-item img {
-    width: 100%;
-    height: 80px;
-    object-fit: cover;
+    max-width: 100%;
+    height: auto;
+    max-height: 80px;
+    object-fit: contain;
     border-radius: 4px;
     margin-bottom: 4px;
 }
@@ -461,13 +462,11 @@ h2, h3 {
     background: #6366f1;
     color: #ffffff;
     border: none;
-    padding: 10px 16px;
+    padding: 12px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 500;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top: 8px;
+    transition: background 0.2s ease, transform 0.2s, box-shadow 0.2s;
 }
 
 .modal-close:hover {
@@ -488,7 +487,7 @@ h2, h3 {
     color: #6b7280;
 }
 
-/* Скрытие контейнера формы */
+/* Скрытие контейнера формы /
 #upload-form-container[style="display: none"] {
     display: none;
 }
@@ -519,11 +518,13 @@ optgroup option {
         width: 100%;
         max-width: 200px;
         height: auto;
+        margin-bottom: 15px;
     }
 
     .btn {
         width: 100%;
         padding: 14px;
+        box-sizing: border-box;
     }
 
     .tab-nav {
